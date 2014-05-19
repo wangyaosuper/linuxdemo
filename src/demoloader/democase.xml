@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<DemoSet>
+  <Demo Name="testdemo1" Library="../demo/testdemo1/libtestdemo1.so">
+    <Case Name="testCase1OfDemo1" CaseFunc="testCase1">
+      <Text>src/demo/testdemo1/testdemo1.c</Text>
+      <Text>src/demo/testdemo1/testdemo1.h</Text>
+    </Case>
+    <Case Name="testCase2OfDemo1" CaseFunc="testCase2">
+      <Text>src/demo/testdemo2/testdemo2.c</Text>
+      <Text>src/demo/testdemo2/testdemo2.h</Text>
+    </Case>
+  </Demo>
+
+  <Demo Name="driverTest" Library="../demo/driverdemo/driverTest/libDriverTest.so.1">
+    <Case Name="test Install Char Dev Driver" CaseFunc="testInstallCharDevDriver">
+    </Case>
+    <Case Name="test UnInstall Char Dev Driver" CaseFunc="testUnInstallCharDevDriver">
+    </Case>
+  </Demo>
+
+  <Demo Name="mem kernel share to usr" Library="../demo/memKernelShareToUsr/usr/libMemMsg.so.1">
+    <Case Name="test Install Char Dev Driver" CaseFunc="testInstallCharDevDriver">
+    </Case>
+    <Case Name="test UnInstall Char Dev Driver" CaseFunc="testUnInstallCharDevDriver">
+    </Case>
+    <Case Name="test init mem buffer" CaseFunc="testInitMsgPool">
+    </Case>
+    <Case Name="test close mem buffer" CaseFunc="testCloseBuf">
+    </Case>
+    <Case Name="test write on mem buffer" CaseFunc="testWriteBuf">
+    </Case>
+    <Case Name="test read on mem buffer" CaseFunc="testReadBuf">
+    </Case>
+    <Case Name="test send msg to kernel" CaseFunc="testSendMsg">
+    </Case>
+  </Demo>
+</DemoSet>

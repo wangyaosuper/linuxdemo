@@ -1,0 +1,42 @@
+1. loadDemoDescription 中本来调用loadXmlFileAndCreateBuffer的地方写成了调用loadDemoDescription
+
+2. loadXmlFileAndCreateBuffer中     *ppBuffer = (char *)malloc(leftSize);  写成了     ppBuffer = (char *)malloc(leftSize);
+
+3. loadXmlFileAndCreateBuffer中没有对pLen进行计算
+
+4. loadDemoDescription中没有进行XML_SetUserData, 同时
+    XML_SetCharacterDataHandler(&tmpData, dataHandle);
+    XML_SetElementHandler(&tmpData, start, end);
+    中&tmpData应该写成p
+
+5. loadDemoDescription()返回成了tmpdata，而不是DemoDescription链表头
+
+6. dlDestroyList()函数里面的循环是死循环，迭代器没有向后面推移。
+
+7. main中接受loadDemoDescription()的结果的时候，不适用DLList来接受的，而是用DemoDescription来接收的。
+
+8. xml进行解析的时候，对caseFunc的解析有问题
+
+9. 在showDemo(DLList *pDemoList)函数中遍历demo链表的时候，没有是偶那个dlGetData来获取item中的pData，而是采取直接强转的方式
+
+10. 在dlGetNext和dlGetPrev中不应该判断是否到达链表的头部，应该直接进行返回
+
+11. showDemo()函数中在迭代链表的时候，循环写错了
+
+    for (;
+         pItem != dlGetEnd(pDemoList);
+         pItem = dlGetNext(pItem), ++index ){
+
+写成了
+
+    for (;
+         pItem != dlGetEnd(pDemoList), ++index;
+         pItem = dlGetNext(pItem) ){
+
+
+12. demoloadershell()函数中，漏写了dlGetData()，
+        pChoicedDemoDes = (DemoDescription *)(dlGetData((dlGetByNum(pDemoList, iInputNum))));
+        if (NULL == pChoicedDemoDes){
+            /*todo*/
+            continue;
+        }

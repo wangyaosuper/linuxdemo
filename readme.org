@@ -1,0 +1,11 @@
+[2011-08-18 Thu]
+完成了xml的读取，以及shell的基本框架
+
+[2012-01-08 Sun]
+完成了wydev.ko，一个自动获取设备号的字符文件的程序，这个前段时间就完成了
+以及完成了installdev.py 和uninstalldev.py，这两个是今天完成的
+
+[2012-01-18 Wed]
+1、增加了有层级的Makefile  ， 每一级都增加了all和clean
+2、完成了driverTest的框架
+
