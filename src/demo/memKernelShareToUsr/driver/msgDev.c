@@ -19,7 +19,7 @@ EvtNotify msg_k2u_evt_notify;
 unsigned char * msgDevInit(unsigned char *pMsgPool, EvtNotify evt_notify){
     unsigned char *res;
     printk(KERN_DEBUG "msgDevInit : we will alloc a MsgPool with size of [%d] .\n", memGetMsgPoolMemorySize());
-    res = msgPoolInit_Server(printk, vmalloc, vfree, pMsgPool);
+    res = msgPoolInit_Server((MsgPoolPrint)printk, (MsgPoolMalloc)vmalloc, (MsgPoolFree)vfree, pMsgPool);
     if (NULL == res){
         printk(KERN_DEBUG "Error: msgDevInit() msgPoolInit_Alloc failed!\n");
         return res;
@@ -35,7 +35,7 @@ unsigned char * msgDevInit(unsigned char *pMsgPool, EvtNotify evt_notify){
 }
 
 /* ---------------------------msg Evt process ------------------------- */
-void msg_Evt_Work(){
+void msg_Evt_Work(struct work_struct *p){
     unsigned char *pData;
     int len;
     unsigned char *pBuf;

@@ -1,7 +1,7 @@
 #ifndef WYCHDEV_H_
 #define WYCHDEV_H_
 
-int chdev_init();
-int chdev_exit();
+int chdev_init(void);
+int chdev_exit(void);
 
 #endif

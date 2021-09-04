@@ -30,12 +30,12 @@ wait_queue_head_t    mem_poll_wait;
 
 
 
-static int char_read(struct file *filp,char __user *buffer,size_t,loff_t *);
+static ssize_t char_read(struct file *filp,char __user *buffer,size_t,loff_t *);
 static int char_open(struct inode *,struct file *);
-static int char_write(struct file *filp,const char __user *buffer,size_t ,loff_t*);
+static ssize_t char_write(struct file *filp,const char __user *buffer,size_t ,loff_t*);
 static int char_release(struct inode *,struct file *); 
 static int mem_mmap(struct file *filp, struct vm_area_struct *vma);
-static int mem_ioctl(struct file *pFile, unsigned int cmd, unsigned long add);
+static long mem_ioctl(struct file *pFile, unsigned int cmd, unsigned long add);
 static unsigned int mem_poll(struct file* file, poll_table* wait);
 
 
@@ -54,9 +54,9 @@ struct file_operations Fops = {
 
 /*------------huawei--------------------*/
 typedef void (* SoftIrqHook )(char cInOut, struct softirq_action* pCur, struct softirq_action* pVec);
-extern SoftIrqHook gFunc_softIrqHook;
+/*extern*/ SoftIrqHook gFunc_softIrqHook;
 typedef void (*TaskletHook )(char cInOut, struct tasklet_struct *pList);
-extern TaskletHook gFunc_TaskletHook;
+/*extern*/ TaskletHook gFunc_TaskletHook;
 
 void softIrqHook(char cInOut, struct softirq_action* pCur, struct softirq_action* pVec);
 void taskletHook(char cInOut, struct tasklet_struct *pList);
@@ -150,7 +150,7 @@ int memDev_exit(){
 }
 
 
-int char_read(struct file *filp,char __user *buffer,size_t size, loff_t * offp){
+ssize_t char_read(struct file *filp,char __user *buffer,size_t size, loff_t * offp){
     printk( "[memMsgDev] enter char_read().\n");
     char str[1000];
     sprintf(str," HI_SOFTIRQ = %llu\n TIMER_SOFTIRQ = %llu\n NET_TX_SOFTIRQ = %llu\n NET_RX_SOFTIRQ = %llu \n BLOCK_SOFTIRQ = %llu \n BLOCK_IOPOLL_SOFTIRQ = %llu \n TASKLET_SOFTIRQ = %llu \n SCHED_SOFTIRQ = %llu \n HRTIMER_SOFTIRQ = %llu\n RCU_SOFTIRQ = %llu \n g_iCurrentSoftirq = %llu \n", 
@@ -175,7 +175,7 @@ int char_open(struct inode * nodep,struct file * filep){
     return 0;
 }
 
-int char_write(struct file *filep,const char __user *buffer,size_t size,loff_t * offp){
+ssize_t char_write(struct file *filep,const char __user *buffer,size_t size,loff_t * offp){
     return 0;
 }
 
@@ -222,7 +222,7 @@ int mem_mmap(struct file *filp, struct vm_area_struct *vma){
 }
 
 /* ---------------------------  ioctl ---------------------- */
-static int mem_ioctl(struct file *pFile, unsigned int cmd, unsigned long add){
+static long mem_ioctl(struct file *pFile, unsigned int cmd, unsigned long add){
     printk(KERN_DEBUG "mem_ioctl() : enter . \n");
     switch(cmd){
     case 0:
@@ -242,7 +242,8 @@ unsigned char mem_poll_flag = 0;
 int mem_wakeup_poll(){
     printk(KERN_DEBUG "info: mem_wakeup_poll enter. \n");
     mem_poll_flag = 1;
-    wake_up_interruptible(&mem_poll_wait); 
+    wake_up_interruptible(&mem_poll_wait);
+    return 0;
 }
 
 static unsigned int mem_poll(struct file* file, poll_table* wait)

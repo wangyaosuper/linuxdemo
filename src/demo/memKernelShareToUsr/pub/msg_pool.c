@@ -138,6 +138,7 @@ static struct DirectionMsgPool * getDirectionMsgPool(EN_MSG_DIRECTION d){
     defualt:
         return NULL;
     }
+    return NULL;
 }
 
 
@@ -146,7 +147,7 @@ unsigned char * msgPoolInit_Server(MsgPoolPrint pPrintFunc,
                                    MsgPoolMalloc pMallocFunc, MsgPoolFree pFreeFunc, 
                                    unsigned char *pool){
     unsigned int i;
-    struct MsgPool * msgPool = msgPoolInit(pPrintFunc, 
+    struct MsgPool * msgPool = (struct MsgPool *) msgPoolInit(pPrintFunc, 
                                        pMallocFunc, pFreeFunc,
                                        pool);
                 
@@ -172,7 +173,7 @@ unsigned char * msgPoolInit(MsgPoolPrint pPrintFunc,
     msgPoolPrint = pPrintFunc;
     msgPoolMalloc = pMallocFunc;
     msgPoolFree = pFreeFunc;
-    msgPool = pMsgPool;
+    msgPool = (struct MsgPool*)pMsgPool;
 
     if (NULL == msgPool){
         return NULL;
@@ -260,6 +261,6 @@ int memGetFreeCubNum(EN_MSG_DIRECTION d){
 }
 
 
-unsigned int memGetMsgPoolMemorySize(){
+unsigned int memGetMsgPoolMemorySize(void){
     return sizeof(struct MsgPool);
 }

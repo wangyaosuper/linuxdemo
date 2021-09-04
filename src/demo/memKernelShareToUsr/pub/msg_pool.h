@@ -25,7 +25,7 @@ int memAddMsg(unsigned char *pData, unsigned int len, EN_MSG_DIRECTION direct);
 int memGetMsg(unsigned char **pData, EN_MSG_DIRECTION direct);
 unsigned int memGetQueueLen(EN_MSG_DIRECTION d);
 int memGetFreeCubNum(EN_MSG_DIRECTION d);
-unsigned int memGetMsgPoolMemorySize();
+unsigned int memGetMsgPoolMemorySize(void);
 
 
 #endif

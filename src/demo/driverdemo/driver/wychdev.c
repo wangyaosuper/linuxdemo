@@ -22,7 +22,7 @@ struct file_operations Fops = {
 };
 
 
-int chdev_init(){
+int chdev_init(void){
     int iRes, devno;
     
     iRes = alloc_chrdev_region(&g_wy_ch_dev,0,DEV_ID_COUNT,"wychdev");
@@ -52,7 +52,7 @@ int chdev_init(){
 }
 
 
-int chdev_exit(){
+int chdev_exit(void){
     cdev_del(g_pdev);
     printk(KERN_INFO "[wychdev] cdev_del successful.\n");
     unregister_chrdev_region(g_wy_ch_dev,DEV_ID_COUNT);
